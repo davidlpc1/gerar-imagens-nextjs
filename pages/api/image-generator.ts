@@ -1,32 +1,41 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getScreenshot } from '../../infra/getScreenshot';
 
-const getHTML = ({ title }) => `
+const getHTML = ({ name }) => `
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <style>
-      body {
-        margin: 0;
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: sans-serif;
-        background-color: #666;
-      }
-      h1 {
-        font-size: 7vw;
-        color: #fff;
-        text-align: center;
-      }
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+            background-color: #000000;
+            gap:20px;
+        }
+        h1 {
+            font-size: 7vw;
+            color: #fff;
+            text-align: center;
+        }
+        img{
+            border-radius:60px;
+        }
     </style>
   </head>
   <body>
     <h1>
-    ${title}
+    ${name}
     </h1>
+    <img width=120 src="${`https://github.com/${name}.png`}" />
   </body>
 </html>
 `;
@@ -34,7 +43,7 @@ const getHTML = ({ title }) => `
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const isHTMLDebugMode = false;
   const html = getHTML({
-    title: req.query.title || 'Adicione na URL: /?title=Titulo',
+    name: req.query.name || 'Adicione na URL: /?name=Your name in github',
   })
   
   if (isHTMLDebugMode) {
@@ -42,7 +51,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.end(html)
   }
 
-  const file = await getScreenshot(html, { width: 800, height: 800 });
+  const file = await getScreenshot(html, { width: 600, height: 600 });
   
   res.setHeader('Content-Type', 'image/png')
   res.end(file);
