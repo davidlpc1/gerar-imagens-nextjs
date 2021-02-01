@@ -41,17 +41,21 @@ const getHTML = ({ name }) => `
 `;
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const isHTMLDebugMode = false;
-  const html = getHTML({
-    name: req.query.name || 'Adicione na URL: /?name=Your name in github',
-  })
-  
-  if (isHTMLDebugMode) {
-    res.setHeader('Content-Type', 'text/html')
-    return res.end(html)
+  const { name,url } = req.query
+  let html
+
+  if(name){
+    html = getHTML({
+      name: req.query.name || 'Adicione na URL: /?name=Your name in github',
+    })
+  }else if(url){
+    html = getHTML({
+      name: req.query.name || 'Adicione na URL: /?name=Your name in github',
+    })
   }
 
-  const file = await getScreenshot(html, { width: 600, height: 600 });
+
+  const file = await getScreenshot({ html,url }, { width: 600, height: 600 });
   
   res.setHeader('Content-Type', 'image/png')
   res.end(file);

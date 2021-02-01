@@ -6,11 +6,11 @@ export default function Home() {
       </h1>
 
       <div>
-        <img width={600} height={600} src="http://localhost:3000/api/image-generator?name=davidlpc1" />
+        <img width={600} height={600} src="api/image-generator?name=davidlpc1" />
       </div>
 
-      <a href="http://localhost:3000/api/image-generator?name=davidlpc1">
-      http://localhost:3000/api/image-generator?name=davidlpc1
+      <a href="/api/image-generator?name=davidlpc1">
+      /api/image-generator?name=davidlpc1
       </a>
     </div>
   )
